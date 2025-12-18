@@ -31,3 +31,7 @@ virtual/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Vercel
+.vercel
+*.pyc
