@@ -5,8 +5,8 @@ services:
     region: oregon
     plan: free
     branch: main
-    buildCommand: "./build.sh"
-    startCommand: "cd cardapioAPIProject && gunicorn cardapioAPI.wsgi:application"
+    buildCommand: "chmod +x build.sh && ./build.sh"
+    startCommand: "cd cardapioAPIProject && gunicorn cardapioAPI.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
