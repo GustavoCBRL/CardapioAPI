@@ -17,10 +17,23 @@ django.setup()
 # Run migrations on Vercel
 if os.environ.get('VERCEL'):
     from django.core.management import call_command
+    from django.contrib.auth import get_user_model
+    
     try:
         call_command('migrate', '--no-input')
+        
+        # Create superuser automatically if it doesn't exist
+        User = get_user_model()
+        if not User.objects.filter(username='admin').exists():
+            admin_password = os.environ.get('ADMIN_PASSWORD', 'admin123')
+            User.objects.create_superuser(
+                username='admin',
+                email='admin@example.com',
+                password=admin_password
+            )
+            print("Superuser 'admin' created successfully")
     except Exception as e:
-        print(f"Migration error: {e}")
+        print(f"Setup error: {e}")
 
 # Import Django WSGI application
 from django.core.wsgi import get_wsgi_application
