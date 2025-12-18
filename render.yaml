@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: cardapio-api
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn --chdir cardapioAPIProject cardapioAPI.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cardapio-db
+          property: connectionString
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_EMAIL
+        value: admin@example.com
+      - key: ADMIN_PASSWORD
+        generateValue: true
+
+databases:
+  - name: cardapio-db
+    plan: free
+    databaseName: cardapio
+    user: cardapio

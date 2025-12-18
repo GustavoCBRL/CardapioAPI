@@ -7,3 +7,6 @@ Markdown==3.10
 PyJWT==2.10.1
 sqlparse==0.5.3
 whitenoise==6.7.0
+gunicorn==21.2.0
+psycopg2-binary==2.9.9
+dj-database-url==2.1.0
