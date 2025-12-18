@@ -1,0 +1,66 @@
+{% extends 'cardapio/layout.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cardapio/css/estilo.css' %}">
+
+<div class="menu-item">
+    <h1>{{ item.nome }}</h1>
+    {% if item.imagem %}
+        <img src="{{ item.imagem }}" alt="{{ item.nome }}"
+        style="max-width: 300px; max-height: 300px;"
+        />
+    {% endif %}
+    
+    <p><strong>Descrição:</strong> {{ item.descricao }}</p>
+    <p><strong>Categoria:</strong> {{ item.categoria }}</p>
+    <p><strong>Preço:</strong> R$ {{ item.preco }}</p>
+</div>
+<div class="edit-form">
+    <h1>✏️ Editar Item</h1>
+    <form action="{% url 'itemmod' item.id %}" method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="nome">Nome do Item:</label>
+            <input type="text" id="nome" name="nome" value="{{ item.nome }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" rows="4" required>{{ item.descricao }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="preco">Preço (R$):</label>
+            <input type="number" id="preco" name="preco" step="0.01" min="0" value="{{ item.preco }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="imagem">URL da Imagem:</label>
+            <input type="url" id="imagem" name="imagem" value="{{ item.imagem }}" placeholder="https://exemplo.com/imagem.jpg">
+        </div>
+        
+        <div class="form-group">
+            <label for="categoria">Categoria:</label>
+            <select id="categoria" name="categoria" required>
+                <option value="">Selecione uma categoria</option>
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}" {% if item.categoria.id == categoria.id %}selected{% endif %}>
+                        {{ categoria.nome }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <button type="submit" class="submit-btn">💾 Salvar Alterações</button>
+    </form><br>
+
+        <a href="{% url 'itemdel' item.id %}" class="del-btn" onclick="return confirm('Tem certeza que deseja deletar este item?')">🗑️ Deletar Item</a>
+        
+</div>
+
+
+
+
+{% endblock %}

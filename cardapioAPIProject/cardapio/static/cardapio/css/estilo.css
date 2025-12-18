@@ -1,0 +1,207 @@
+    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #434344 0%, #272627 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+    header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+    header a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+    header a:hover {
+            color: #7a7a7a;
+        }
+    .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+  
+  
+  
+  .add-form {
+                background-color: rgba(255, 255, 255, 0.95);
+                padding: 30px;
+                border-radius: 12px;
+                margin-top: 20px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .add-form h1 {
+                color: #363636;
+                margin-bottom: 20px;
+                font-size: 2em;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+            .form-group label {
+                display: block;
+                color: #363636;
+                font-weight: bold;
+                margin-bottom: 8px;
+                font-size: 1.1em;
+            }
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                font-size: 1em;
+                transition: border-color 0.3s;
+            }
+            .form-group input:focus,
+            .form-group textarea:focus,
+            .form-group select:focus {
+                outline: none;
+                border-color: #363636;
+            }
+            .submit-btn {
+                background-color: #363636;
+                color: white;
+                padding: 15px 30px;
+                border: none;
+                border-radius: 8px;
+                font-size: 1.1em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.2s;
+            }
+            .submit-btn:hover {
+                background-color: #555;
+                transform: translateY(-2px);
+            }
+
+  .menu-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .menu-list {
+            list-style: none;
+            display: grid;
+            gap: 20px;
+        }
+        .menu-item {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+        .item-name {
+            color: #363636;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        .item-description {
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .item-price {
+            color: #000000;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        .empty-message {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            color: #666;
+        }
+         .edit-form {
+                background-color: rgba(255, 255, 255, 0.95);
+                padding: 30px;
+                border-radius: 12px;
+                margin-top: 20px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .edit-form h1 {
+                color: #363636;
+                margin-bottom: 20px;
+                font-size: 2em;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+            .form-group label {
+                display: block;
+                color: #363636;
+                font-weight: bold;
+                margin-bottom: 8px;
+                font-size: 1.1em;
+            }
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                font-size: 1em;
+                transition: border-color 0.3s;
+            }
+            .form-group input:focus,
+            .form-group textarea:focus,
+            .form-group select:focus {
+                outline: none;
+                border-color: #363636;
+            }
+            .submit-btn {
+                background-color: #363636;
+                color: white;
+                padding: 15px 30px;
+                border: none;
+                border-radius: 8px;
+                font-size: 1.1em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.2s;
+            }
+            .submit-btn:hover {
+                background-color: #555;
+                transform: translateY(-2px);
+            }
+            .del-btn {
+                background-color: #e42828;
+                color: white;
+                padding: 15px 30px;
+                border: none;
+                border-radius: 8px;
+                font-size: 1.1em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.2s;
+                display: inline;
+                text-decoration: none;
+            }
+            .del-btn:hover {
+                background-color: #ff0000;
+                transform: translateY(-2px);
+            }
+
+           

@@ -1,0 +1,47 @@
+{% extends "cardapio/layout.html" %}
+{% load static %}
+
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'cardapio/css/estilo.css' %}">
+
+    <h1 class="menu-title">🍽️ Cardápio</h1>
+    {% if user.is_authenticated %}
+        {% if item %}
+            <ul class="menu-list">
+                {% for i in item %}
+                <li class="menu-item">
+                    <a href="{% url 'itempage' i.id %}" style="text-decoration: none;">
+                        <h3 class="item-name">{{ i.nome }}</h3>
+                        <p class="item-description">{{ i.descricao }}</p>
+                        <p class="item-price">R$ {{ i.preco }}</p>
+                        <p class="item-description">{{ i.categoria }}</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-message">
+                <p>Nenhum item no cardápio ainda. Adicione itens pelo painel administrativo!</p>
+            </div>
+        {% endif %}
+    {% else %}
+        {% if item %}
+        <ul class="menu-list">
+            {% for i in item %}
+            <li class="menu-item">
+                <h3 class="item-name">{{ i.nome }}</h3>
+                <p class="item-description">{{ i.descricao }}</p>
+                <p class="item-price">R$ {{ i.preco }}</p>
+                <p clas="item-description">{{ i.categoria }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty-message">
+            <p>Nenhum item no cardápio ainda. Adicione itens pelo painel administrativo!</p>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

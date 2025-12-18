@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio</title>
+
+    <link rel="stylesheet" href="{% static 'cardapio/css/estilo.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <ul style="list-style-type: none;">
+            {% if user.is_authenticated %}
+                 <li><a href="{% url 'index' %}">🏠 Início</a></li>
+                <li><a href="{% url 'itemadd' %}">🍴 Adicionar Item</a></li>
+                <li><a href="/admin/">📚 Painel Administrativo</a></li>
+                <li><a href="{% url 'logout' %}">🚪 Log Out</a></li>
+               
+            {% else %}
+                <li><a href="{% url 'index' %}">🏠 Início</a></li>
+                <li><a href="{% url 'login' %}">🔑 Log In</a></li>   
+            {% endif %}
+            </ul>
+        </header>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
