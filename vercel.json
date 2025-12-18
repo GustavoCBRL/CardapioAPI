@@ -2,22 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "cardapioAPIProject/cardapioAPI/wsgi.py",
+      "src": "index.py",
       "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+      "config": { 
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
+      }
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "cardapioAPIProject/cardapioAPI/wsgi.py"
+      "dest": "index.py"
     }
-  ],
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "cardapioAPI.settings"
-  }
+  ]
 }
