@@ -5,7 +5,7 @@ services:
     region: oregon
     plan: free
     branch: main
-    buildCommand: "chmod +x build.sh && ./build.sh"
+    buildCommand: "pip install -r requirements.txt && cd cardapioAPIProject && python manage.py collectstatic --no-input && python manage.py migrate --no-input"
     startCommand: "cd cardapioAPIProject && gunicorn cardapioAPI.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
       - key: PYTHON_VERSION
