@@ -28,7 +28,7 @@ sys.path.insert(0, str(BASE_DIR.parent))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-hvts(fw_a*ve$w*ry)b%pm%%ad7or9g8xf$-t*(4yb2l8xqc(#')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*']  # Vercel handles host validation
 
@@ -82,12 +82,21 @@ WSGI_APPLICATION = 'cardapioAPI.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Use /tmp for SQLite in Vercel (writable directory)
+if os.environ.get('VERCEL'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': '/tmp/db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation

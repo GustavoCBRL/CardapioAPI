@@ -10,6 +10,18 @@ sys.path.insert(0, str(BASE_DIR / 'cardapioAPIProject'))
 # Set Django settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cardapioAPI.settings')
 
+# Import Django
+import django
+django.setup()
+
+# Run migrations on Vercel
+if os.environ.get('VERCEL'):
+    from django.core.management import call_command
+    try:
+        call_command('migrate', '--no-input')
+    except Exception as e:
+        print(f"Migration error: {e}")
+
 # Import Django WSGI application
 from django.core.wsgi import get_wsgi_application
 
