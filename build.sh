@@ -5,15 +5,18 @@ set -o errexit
 # Install dependencies
 pip install -r requirements.txt
 
+# Change to project directory
+cd cardapioAPIProject
+
 # Collect static files
-python cardapioAPIProject/manage.py collectstatic --no-input
+python manage.py collectstatic --no-input
 
 # Make migrations
-python cardapioAPIProject/manage.py makemigrations --no-input
-python cardapioAPIProject/manage.py migrate --no-input
+python manage.py makemigrations --no-input
+python manage.py migrate --no-input
 
 # Create superuser if it doesn't exist
-python cardapioAPIProject/manage.py shell << EOF
+python manage.py shell << EOF
 from django.contrib.auth import get_user_model
 import os
 
