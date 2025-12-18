@@ -6,7 +6,7 @@ services:
     plan: free
     branch: main
     buildCommand: "./build.sh"
-    startCommand: "gunicorn --chdir cardapioAPIProject cardapioAPI.wsgi:application"
+    startCommand: "cd cardapioAPIProject && gunicorn cardapioAPI.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
