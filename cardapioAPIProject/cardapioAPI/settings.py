@@ -86,13 +86,23 @@ WSGI_APPLICATION = 'cardapioAPI.wsgi.application'
 # Use PostgreSQL on Render/Neon, SQLite on Vercel/locally
 if os.environ.get('DATABASE_URL') and not os.environ.get('VERCEL'):
     # Production - Render with PostgreSQL/Neon
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
+    try:
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=os.environ.get('DATABASE_URL'),
+                conn_max_age=600,
+                conn_health_checks=True,
+            )
+        }
+    except Exception as e:
+        # Fallback to SQLite if PostgreSQL fails
+        print(f"PostgreSQL connection failed: {e}. Using SQLite fallback.")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': '/tmp/db.sqlite3',
+            }
+        }
 elif os.environ.get('VERCEL'):
     # Vercel - SQLite in /tmp (PostgreSQL não funciona bem no Vercel serverless)
     DATABASES = {
@@ -102,13 +112,22 @@ elif os.environ.get('VERCEL'):
         }
     }
 else:
-    # Development - SQLite local
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+    # Development - SQLite local or Neon if DATABASE_URL is set
+    if os.environ.get('DATABASE_URL'):
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=os.environ.get('DATABASE_URL'),
+                conn_max_age=600,
+                conn_health_checks=True,
+            )
         }
-    }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 
 
 # Password validation
