@@ -83,18 +83,19 @@ WSGI_APPLICATION = 'cardapioAPI.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Simplified: Use SQLite for all deployments, PostgreSQL only locally with .env
-if os.environ.get('DATABASE_URL') and not (os.environ.get('VERCEL') or os.environ.get('RENDER')):
-    # Local development with Neon PostgreSQL
+# Use Neon PostgreSQL when DATABASE_URL is set (persistent), SQLite otherwise
+if os.environ.get('DATABASE_URL'):
+    # Production/Development with Neon PostgreSQL (persistent data)
     DATABASES = {
         'default': dj_database_url.config(
             default=os.environ.get('DATABASE_URL'),
             conn_max_age=600,
             conn_health_checks=True,
+            ssl_require=True,
         )
     }
-elif os.environ.get('VERCEL') or os.environ.get('RENDER'):
-    # Vercel/Render - SQLite in /tmp (simple and works)
+elif os.environ.get('VERCEL'):
+    # Vercel - SQLite in /tmp (fallback only)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
