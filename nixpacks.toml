@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ['python312', 'postgresql']
+
+[phases.install]
+cmds = ['pip install -r requirements.txt']
+
+[phases.build]
+cmds = ['echo "Build phase - no collectstatic needed"']
+
+[start]
+cmd = 'cd cardapioAPIProject && python manage.py migrate && gunicorn --bind 0.0.0.0:$PORT cardapioAPI.wsgi:application'
