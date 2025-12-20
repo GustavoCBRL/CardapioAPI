@@ -34,6 +34,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     'gustavocbrl.pythonanywhere.com',
     'cardapioapi-xiz8.onrender.com',
+    '.up.railway.app',
     '.vercel.app',
     'localhost',
     '127.0.0.1',
