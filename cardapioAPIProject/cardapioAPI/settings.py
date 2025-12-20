@@ -31,7 +31,13 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-hvts(fw_a*ve$w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']  # Vercel handles host validation
+ALLOWED_HOSTS = [
+    'gustavocbrl.pythonanywhere.com',
+    'cardapioapi-xiz8.onrender.com',
+    '.vercel.app',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
