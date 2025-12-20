@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'cardapioAPI.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Use PostgreSQL on Render, SQLite locally
-if os.environ.get('DATABASE_URL'):
-    # Production - Render with PostgreSQL
+# Use PostgreSQL on Render/Neon, SQLite on Vercel/locally
+if os.environ.get('DATABASE_URL') and not os.environ.get('VERCEL'):
+    # Production - Render with PostgreSQL/Neon
     DATABASES = {
         'default': dj_database_url.config(
             default=os.environ.get('DATABASE_URL'),
@@ -94,7 +94,7 @@ if os.environ.get('DATABASE_URL'):
         )
     }
 elif os.environ.get('VERCEL'):
-    # Vercel - SQLite in /tmp
+    # Vercel - SQLite in /tmp (PostgreSQL não funciona bem no Vercel serverless)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
