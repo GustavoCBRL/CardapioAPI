@@ -89,9 +89,18 @@ WSGI_APPLICATION = 'cardapioAPI.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Use Neon PostgreSQL when DATABASE_URL is set (persistent), SQLite otherwise
-if os.environ.get('DATABASE_URL'):
-    # Production/Development with Neon PostgreSQL (persistent data)
+# PythonAnywhere free tier blocks external PostgreSQL connections
+# Use SQLite for PythonAnywhere, PostgreSQL for local/other platforms
+if os.environ.get('PYTHONANYWHERE_DOMAIN'):
+    # PythonAnywhere - SQLite (external DB connections blocked in free tier)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+elif os.environ.get('DATABASE_URL'):
+    # Production/Development with PostgreSQL (persistent data)
     DATABASES = {
         'default': dj_database_url.config(
             default=os.environ.get('DATABASE_URL'),
