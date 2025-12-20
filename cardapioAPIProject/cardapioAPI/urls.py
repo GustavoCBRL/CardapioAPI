@@ -20,11 +20,17 @@ from rest_framework.routers import DefaultRouter
 from cardapio.views import ItemViewSet
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import JsonResponse
+
+# Health check endpoint for Railway
+def health_check(request):
+    return JsonResponse({"status": "healthy"})
 
 router = DefaultRouter()
 router.register(r'items', ItemViewSet)
 
 urlpatterns = [
+    path('health/', health_check, name='health'),
     path('admin/', admin.site.urls),
     path('', include('cardapio.urls')),
     path('api/', include(router.urls))
