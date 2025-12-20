@@ -1,0 +1,21 @@
+[Unit]
+Description=Cardapio API Gunicorn daemon
+After=network.target
+
+[Service]
+Type=notify
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/CardapioAPI/cardapioAPIProject
+Environment="PATH=/home/ubuntu/CardapioAPI/venv/bin"
+EnvironmentFile=/home/ubuntu/CardapioAPI/.env
+ExecStart=/home/ubuntu/CardapioAPI/venv/bin/gunicorn \
+          --workers 3 \
+          --bind unix:/home/ubuntu/CardapioAPI/gunicorn.sock \
+          --access-logfile /var/log/gunicorn/access.log \
+          --error-logfile /var/log/gunicorn/error.log \
+          --timeout 120 \
+          cardapioAPI.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
