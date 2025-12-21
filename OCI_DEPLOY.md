@@ -42,7 +42,7 @@
 
 3. Clique em **Create**
 4. Aguarde a VM ficar em **Running** (2-3 minutos)
-5. Anote o **Public IP Address**
+5. Anote o **Public IP Address**: `10.0.0.84`
 
 ### 3. Configurar Firewall (Security List)
 
@@ -66,17 +66,162 @@ Adicione as seguintes regras:
 
 ### 4. Conectar via SSH
 
-#### Linux/Mac:
+SSH (Secure Shell) é um protocolo que permite você acessar o terminal do servidor remotamente de forma segura. Você vai precisar da **chave privada** que baixou no passo 2.
+
+#### 📁 Onde está minha chave SSH?
+
+Quando você criou a VM, o Oracle gerou um par de chaves:
+- **Chave privada** (`.key`) - Você baixou, fica no seu computador
+- **Chave pública** - Foi instalada automaticamente na VM
+
+A chave privada fica geralmente em:
+- **Linux/Mac**: `~/Downloads/ssh-key-YYYY-MM-DD-HH-MM.key`
+- **Windows**: `C:\Users\SeuNome\Downloads\ssh-key-YYYY-MM-DD-HH-MM.key`
+
+#### 🔐 Passo 1: Preparar a chave (Linux/Mac)
+
 ```bash
-chmod 400 ~/Downloads/ssh-key-*.key
+# Ir para o diretório Downloads
+cd ~/Downloads
+
+# Ver arquivos .key disponíveis
+ls -la ssh-key-*.key
+
+# Mudar permissões (OBRIGATÓRIO para SSH funcionar)
+chmod 400 ssh-key-*.key
+```
+
+**Por quê `chmod 400`?**
+- SSH exige que a chave privada seja legível **apenas por você**
+- `400` = somente o dono pode ler
+- Sem isso, SSH recusa conectar por segurança
+
+#### 🚀 Passo 2: Conectar ao servidor
+
+**Para Ubuntu (imagem oficial Ubuntu):**
+```bash
 ssh -i ~/Downloads/ssh-key-*.key ubuntu@SEU_IP_PUBLICO
-# OU para Oracle Linux:
+```
+
+**Para Oracle Linux (imagem oficial Oracle):**
+```bash
 ssh -i ~/Downloads/ssh-key-*.key opc@SEU_IP_PUBLICO
 ```
 
-#### Windows (PowerShell):
+**Substituir `SEU_IP_PUBLICO`** pelo IP que você anotou no passo 2!
+
+**Exemplo real:**
+```bash
+ssh -i ~/Downloads/ssh-key-2025-12-20-01-30.key ubuntu@150.230.45.123
+```
+
+#### 💻 Windows (PowerShell)
+
 ```powershell
-ssh -i C:\Users\SeuNome\Downloads\ssh-key-*.key ubuntu@SEU_IP_PUBLICO
+# Abrir PowerShell
+# Ir para Downloads
+cd C:\Users\SeuNome\Downloads
+
+# Conectar (Windows não precisa chmod)
+ssh -i ssh-key-2025-12-20-01-30.key ubuntu@150.230.45.123
+```
+
+**Windows não tem SSH?** (Windows 7/8)
+- Baixe [PuTTY](https://www.putty.org/)
+- Use PuTTYgen para converter `.key` para `.ppk`
+- Configure connection com IP e arquivo `.ppk`
+
+#### ✅ Primeira conexão
+
+Na primeira vez, você verá:
+```
+The authenticity of host '150.230.45.123' can't be established.
+ED25519 key fingerprint is SHA256:xxxxxxxxxxxxxxxxxxx.
+Are you sure you want to continue connecting (yes/no)?
+```
+
+Digite **`yes`** e pressione Enter.
+
+Isso adiciona o servidor à lista de hosts conhecidos (`~/.ssh/known_hosts`).
+
+#### 🎉 Conectado!
+
+Você verá algo como:
+```
+Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-1045-oracle x86_64)
+
+ubuntu@cardapio-api:~$
+```
+
+**Agora você está dentro do servidor!** Todos os comandos que digitar rodam na VM do Oracle Cloud.
+
+#### 🚫 Problemas Comuns
+
+**Erro: "Permission denied (publickey)"**
+```bash
+# Causa: Usuário errado ou chave errada
+# Solução: Confirme se é 'ubuntu' ou 'opc' e use a chave correta
+```
+
+**Erro: "WARNING: UNPROTECTED PRIVATE KEY FILE!"**
+```bash
+# Causa: Permissões erradas da chave
+# Solução: Execute chmod 400 na chave
+chmod 400 ~/Downloads/ssh-key-*.key
+```
+
+**Erro: "Connection timed out"**
+```bash
+# Causa: Firewall do OCI bloqueando porta 22
+# Solução: Volte ao passo 3 e adicione regra SSH:
+# Source CIDR: 0.0.0.0/0
+# IP Protocol: TCP
+# Destination Port: 22
+```
+
+**Erro: "Host key verification failed"**
+```bash
+# Causa: Você recriou a VM mas o IP é o mesmo
+# Solução: Remover entrada antiga
+ssh-keygen -R SEU_IP_PUBLICO
+```
+
+#### 📝 Dicas Úteis
+
+**Salvar configuração SSH** (não precisar digitar IP toda vez):
+
+```bash
+# No seu computador local, edite ~/.ssh/config
+nano ~/.ssh/config
+```
+
+Adicione:
+```
+Host cardapio-oracle
+    HostName 150.230.45.123
+    User ubuntu
+    IdentityFile ~/Downloads/ssh-key-2025-12-20-01-30.key
+```
+
+Agora conecte simplesmente com:
+```bash
+ssh cardapio-oracle
+```
+
+**Copiar arquivos do seu PC para o servidor:**
+```bash
+scp -i ~/Downloads/ssh-key-*.key arquivo.txt ubuntu@SEU_IP:/home/ubuntu/
+```
+
+**Copiar arquivos do servidor para seu PC:**
+```bash
+scp -i ~/Downloads/ssh-key-*.key ubuntu@SEU_IP:/home/ubuntu/arquivo.txt ~/Downloads/
+```
+
+**Desconectar do servidor:**
+```bash
+exit
+# OU pressione Ctrl+D
 ```
 
 ### 5. Setup Inicial no Servidor
