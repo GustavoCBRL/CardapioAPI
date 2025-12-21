@@ -21,31 +21,16 @@ from cardapio.views import ItemViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import JsonResponse
-from django.contrib.auth import get_user_model
 
 # Health check endpoint for Railway
 def health_check(request):
     return JsonResponse({"status": "healthy"})
-
-# Temporary endpoint to create superuser - REMOVE AFTER USE!
-def create_superuser_once(request):
-    User = get_user_model()
-    username = 'gustavocbrl'
-    email = 'gustavo.zaidancabral@gmail.com'
-    password = 'Dimitri22@'
-    
-    if User.objects.filter(username=username).exists():
-        return JsonResponse({"error": f"User {username} already exists!"}, status=400)
-    
-    User.objects.create_superuser(username=username, email=email, password=password)
-    return JsonResponse({"success": f"Superuser {username} created successfully! Now DELETE this endpoint."})
 
 router = DefaultRouter()
 router.register(r'items', ItemViewSet)
 
 urlpatterns = [
     path('health/', health_check, name='health'),
-    path('create-super-admin-once/', create_superuser_once, name='create_superuser'),  # TEMPORARY - REMOVE AFTER USE
     path('admin/', admin.site.urls),
     path('', include('cardapio.urls')),
     path('api/', include(router.urls))
