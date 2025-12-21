@@ -34,6 +34,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     'gustavocbrl.pythonanywhere.com',
     'cardapioapi-xiz8.onrender.com',
+    'cardapioapi-production-1b26.up.railway.app',
     '.up.railway.app',
     'healthcheck.railway.app',
     '.vercel.app',
