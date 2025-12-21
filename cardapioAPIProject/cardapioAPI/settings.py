@@ -192,7 +192,8 @@ CORS_ALLOWED_ORIGINS = [
     ).split(',') if origin.strip()
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False
+# Temporariamente permitir todas as origens (remover após testar)
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
