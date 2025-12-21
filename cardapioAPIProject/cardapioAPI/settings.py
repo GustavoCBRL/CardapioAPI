@@ -182,7 +182,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     origin.strip() for origin in os.environ.get(
         'CORS_ALLOWED_ORIGINS',
-        'https://restaurante-chi-two.vercel.app,'
+        'https://restaurante-chi-two.vercel.app/cardapio,'
         'https://cardapioapi-production-1b26.up.railway.app,'
         'https://gustavocbrl.pythonanywhere.com,'
         'http://localhost:3000,'
