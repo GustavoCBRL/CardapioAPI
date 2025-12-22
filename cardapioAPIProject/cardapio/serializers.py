@@ -4,4 +4,4 @@ from .models import Item
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item  
-        fields = ['id', 'nome', 'descricao', 'preco', 'imagem']  # Quais campos expor na API
+        fields = ['id', 'nome', 'descricao', 'preco', 'imagem', 'categoria']  # Quais campos expor na API
