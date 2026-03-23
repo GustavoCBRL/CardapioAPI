@@ -13,8 +13,9 @@
         <header>
             <ul style="list-style-type: none;">
             {% if user.is_authenticated %}
-                 <li><a href="{% url 'index' %}">🏠 Início</a></li>
+                <li><a href="{% url 'index' %}">🏠 Início</a></li>
                 <li><a href="{% url 'itemadd' %}">🍴 Adicionar Item</a></li>
+                <li><a href="{% url 'categoriaadd' %}">📖 Adicionar Categoria</a></li>
                 <li><a href="/admin/">📚 Painel Administrativo</a></li>
                 <li><a href="{% url 'logout' %}">🚪 Log Out</a></li>
                

@@ -56,6 +56,19 @@ def itemadd(request):
         "categorias": categorias
     })
 
+def categoriaadd(request):
+    if request.method == "POST":
+        nome = request.POST ["nome"]
+        descricao = request.POST ["descricao"]
+
+        Categoria.objects.create(
+            nome=nome,
+            descricao=descricao
+        )
+        return HttpResponseRedirect(reverse("index"))
+    return render(request, "cardapio/categoriaadd.html")
+
+
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()  # Busca todos os itens do banco
     serializer_class = ItemSerializer  # Usa o serializer para converter
