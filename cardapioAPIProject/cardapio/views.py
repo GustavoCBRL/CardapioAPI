@@ -57,16 +57,38 @@ def itemadd(request):
     })
 
 def categoriaadd(request):
-    if request.method == "POST":
-        nome = request.POST ["nome"]
-        descricao = request.POST ["descricao"]
+    try:
+        if request.method == "POST":
+            nome = request.POST.get("nome", "").strip()
+            descricao = request.POST.get("descricao", "").strip()
+            
+            # Validate input
+            if not nome or not descricao:
+                return render(request, "cardapio/categoriaadd.html", {
+                    "error": "Nome e descrição são obrigatórios."
+                })
+            
+            # Check if category already exists
+            if Categoria.objects.filter(nome=nome).exists():
+                return render(request, "cardapio/categoriaadd.html", {
+                    "error": f"Categoria '{nome}' já existe."
+                })
 
-        Categoria.objects.create(
-            nome=nome,
-            descricao=descricao
-        )
-        return HttpResponseRedirect(reverse("index"))
-    return render(request, "cardapio/categoriaadd.html")
+            Categoria.objects.create(
+                nome=nome,
+                descricao=descricao
+            )
+            return HttpResponseRedirect(reverse("index"))
+        return render(request, "cardapio/categoriaadd.html")
+    except Exception as e:
+        # Log the error for debugging in production
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Error in categoriaadd: {str(e)}", exc_info=True)
+        
+        return render(request, "cardapio/categoriaadd.html", {
+            "error": f"Erro interno: {str(e)}"
+        })
 
 
 class ItemViewSet(viewsets.ModelViewSet):

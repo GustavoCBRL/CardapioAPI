@@ -5,6 +5,13 @@
 <link rel="stylesheet" href="{% static 'cardapio/css/estilo.css' %}">
 
 <h1 class="add-form">Adicionar Categoria de Itens</h1>
+
+{% if error %}
+<div style="color: red; background: #ffe6e6; padding: 10px; margin: 10px 0; border: 1px solid red; border-radius: 5px;">
+    {{ error }}
+</div>
+{% endif %}
+
 <form action="{% url 'categoriaadd' %}" method="post" class="add-form">
         {% csrf_token %}
         
